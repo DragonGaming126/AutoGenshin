@@ -4,17 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Automusic Genshin</title>
-    <!-- Font Google -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <!-- Icônes -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- Eel script is dynamically injected -->
-    <script type="text/javascript" src="/eel.js"></script>
 </head>
 <body>
     <div class="app-container">
-        <!-- Sidebar / Menu -->
         <aside class="sidebar glass-panel">
             <div class="logo">
                 <i class="ri-music-2-fill logo-icon"></i>
@@ -60,6 +55,15 @@
                         <i class="ri-skip-forward-fill"></i> Contrôle Autoskip
                     </button>
                 </div>
+
+                <div class="nav-category active" data-group="autorecolt-group">
+                    <span>MODE AUTO-COLLECTE</span> <i class="ri-arrow-down-s-line"></i>
+                </div>
+                <div class="nav-group" id="autorecolt-group">
+                    <button class="nav-item" data-target="autorecolt_dashboard">
+                        <i class="ri-hand-coin-line"></i> Contrôle Auto-Collecte
+                    </button>
+                </div>
             </nav>
 
             <div class="status-indicator">
@@ -68,16 +72,14 @@
             </div>
         </aside>
 
-        <!-- Main Content Area -->
         <main class="main-content">
-            
-            <!-- Dashboard Section -->
+
             <section id="dashboard" class="content-section active">
                 <header class="section-header">
                     <h2>Contrôle Principal</h2>
                     <p>Démarre ou arrête la lecture automatique</p>
                 </header>
-                
+
                 <div class="control-panel glass-panel">
                     <div class="power-button-container">
                         <button id="btn-toggle-bot" class="btn-power start">
@@ -93,13 +95,12 @@
                 </div>
             </section>
 
-            <!-- Autoskip Section -->
             <section id="autoskip_dashboard" class="content-section">
                 <header class="section-header">
                     <h2>Autoskip Dialogues</h2>
                     <p>Passe rapidement les dialogues en spammant la touche</p>
                 </header>
-                
+
                 <div class="control-panel glass-panel">
                     <div class="power-button-container">
                         <button id="btn-toggle-autoskip" class="btn-power start" style="background: linear-gradient(135deg, #00f5d4, #00b4d8); box-shadow: 0 10px 30px rgba(0,245,212,0.3);">
@@ -108,7 +109,7 @@
                             <span id="btn-toggle-autoskip-text">Démarrer Autoskip (F7 / Ctrl+F)</span>
                         </button>
                     </div>
-                    
+
                     <div class="settings-form" style="width: 100%; max-width: 500px; margin-top: 20px; padding: 0;">
                         <div class="form-group">
                             <label>Touche d'interaction (souvent F ou Espace)</label>
@@ -128,7 +129,68 @@
                 </div>
             </section>
 
-            <!-- Calibration Section -->
+            <section id="autorecolt_dashboard" class="content-section">
+                <header class="section-header">
+                    <h2>Auto-Collecte</h2>
+                    <p>Détecte automatiquement les interactions affichées à l'écran.</p>
+                </header>
+
+                <div class="control-panel glass-panel">
+                    <div class="power-button-container">
+                        <button id="btn-toggle-autorecolt" class="btn-power start" style="background: linear-gradient(135deg, #00f5d4, #00b4d8); box-shadow: 0 10px 30px rgba(0,245,212,0.3);">
+                            <i class="ri-play-circle-fill icon-play-autorecolt"></i>
+                            <i class="ri-stop-circle-fill icon-stop-autorecolt" style="display: none;"></i>
+                            <span id="btn-toggle-autorecolt-text">Démarrer Auto-Collecte (F8)</span>
+                        </button>
+                    </div>
+
+                    <div class="settings-form" style="width: 100%; max-width: 600px; margin-top: 20px; padding: 0;">
+                        <div class="form-group">
+                            <label>Touche d'interaction</label>
+                            <div class="input-with-btn">
+                                <div class="key-display" id="autorecolt_key" style="width:100%; height:45px; font-size:20px;">F</div>
+                                <button class="btn-primary" id="btn-capture-autorecolt-key" style="min-width:120px;">Capturer</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Que veux-tu ramasser ?</label>
+                            <label style="display:flex; flex-direction:row; align-items:center; gap:10px;">
+                                <input type="radio" name="autorecolt_mode" value="examiner">
+                                Examiner uniquement
+                            </label>
+                            <label style="display:flex; flex-direction:row; align-items:center; gap:10px;">
+                                <input type="radio" name="autorecolt_mode" value="objects">
+                                Objets / ressources
+                            </label>
+                            <label style="display:flex; flex-direction:row; align-items:center; gap:10px;">
+                                <input type="radio" name="autorecolt_mode" value="both" checked>
+                                Examiner + objets
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="autorecolt_scan_interval">Intervalle de détection (ms)</label>
+                            <input type="number" id="autorecolt_scan_interval" min="15" max="250" value="35">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="autorecolt_cooldown">Délai minimum entre deux appuis (ms)</label>
+                            <input type="number" id="autorecolt_cooldown" min="50" max="1000" value="120">
+                        </div>
+
+                        <div class="info-card" style="max-width:none;">
+                            <i class="ri-information-line"></i>
+                            <p>Le mode <strong>Objets</strong> détecte le badge de touche du prompt. Le mode <strong>Examiner</strong> utilise le template visuel fourni.</p>
+                        </div>
+
+                        <div class="form-actions">
+                            <button id="btn-save-autorecolt" class="btn-primary">Sauvegarder Config</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section id="calibration" class="content-section">
                 <header class="section-header">
                     <h2>Calibration Clavier & Colonnes</h2>
@@ -136,8 +198,6 @@
                 </header>
 
                 <div class="keys-grid glass-panel" style="gap: 15px;">
-                    <!-- Les cartes de clés -->
-                    <!-- Script.js injectera les colonnes plus proprement ou on le laisse en HTML avec une classe plus petite -->
                     <div class="key-card">
                         <h3>Col 1</h3>
                         <div class="key-display" id="key-0" style="width:40px; height:40px; font-size:20px;">-</div>
@@ -193,8 +253,7 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Overlay pour la capture de touche -->
+
                 <div id="capture-overlay" class="overlay" style="display: none;">
                     <div class="overlay-content">
                         <i class="ri-keyboard-line pulse-icon"></i>
@@ -204,7 +263,6 @@
                 </div>
             </section>
 
-            <!-- Geometry Section -->
             <section id="geometry" class="content-section">
                 <header class="section-header">
                     <h2>Dimensions et Positions</h2>
@@ -219,7 +277,7 @@
                             <button class="btn-icon btn-capture-pos" data-target="initial_y" title="Cliquer à l'écran"><i class="ri-focus-3-line"></i></button>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="x_start">X Début (Bord gauche des notes)</label>
                         <div class="input-with-btn">
@@ -245,8 +303,7 @@
                         <button id="btn-save-geometry" class="btn-primary">Sauvegarder</button>
                     </div>
                 </div>
-                
-                <!-- Overlay pour la capture de clic -->
+
                 <div id="click-overlay" class="overlay" style="display: none;">
                     <div class="overlay-content">
                         <i class="ri-mouse-line pulse-icon"></i>
@@ -256,7 +313,6 @@
                 </div>
             </section>
 
-            <!-- App Settings Section -->
             <section id="app-settings" class="content-section">
                 <header class="section-header">
                     <h2>Paramètres d'application</h2>
@@ -265,6 +321,7 @@
 
                 <div class="settings-form glass-panel">
                     <h3>Raccourcis d'Application</h3>
+
                     <div class="form-group">
                         <label>Démarrer/Arrêter Mode Musique</label>
                         <div class="input-with-btn">
@@ -272,6 +329,7 @@
                             <button class="btn-primary btn-capture-app-key" data-target="hotkey_music" style="min-width: 100px;">Capturer</button>
                         </div>
                     </div>
+
                     <div class="form-group" style="margin-top: 10px;">
                         <label>Démarrer/Arrêter Mode Autoskip</label>
                         <div class="input-with-btn">
@@ -279,10 +337,17 @@
                             <button class="btn-primary btn-capture-app-key" data-target="hotkey_skip" style="min-width: 100px;">Capturer</button>
                         </div>
                     </div>
+
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label>Démarrer/Arrêter Auto-Collecte</label>
+                        <div class="input-with-btn">
+                            <div class="key-display" id="hotkey_recolt" style="width:100%; height: 40px; font-size: 16px;">&lt;f8&gt;</div>
+                            <button class="btn-primary btn-capture-app-key" data-target="hotkey_recolt" style="min-width: 100px;">Capturer</button>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- Advanced Section -->
             <section id="advanced" class="content-section">
                 <header class="section-header">
                     <h2>Paramètres Avancés</h2>
@@ -291,29 +356,33 @@
 
                 <div class="settings-form glass-panel">
                     <h3>Réglages Moteur</h3>
+
                     <div class="form-group">
                         <label for="pixel_threshold">Seuil de pixels (Sensibilité)</label>
                         <input type="number" id="pixel_threshold" value="15">
                     </div>
+
                     <div class="form-group">
                         <label for="tap_duration">Durée frappe courte (s)</label>
                         <input type="number" step="0.01" id="tap_duration" value="0.02">
                     </div>
+
                     <div class="form-group">
                         <label for="tap_cooldown">Délai entre frappes (s)</label>
                         <input type="number" step="0.01" id="tap_cooldown" value="0.05">
                     </div>
+
                     <div class="form-group">
                         <label for="hold_debounce">Tolérance maintien (s)</label>
                         <input type="number" step="0.01" id="hold_debounce" value="0.15">
                     </div>
+
                     <div class="form-actions">
                         <button id="btn-save-advanced" class="btn-primary">Sauvegarder Moteur</button>
                     </div>
                 </div>
             </section>
-            
-            <!-- Tips Section -->
+
             <section id="tips" class="content-section">
                 <header class="section-header">
                     <h2>Tips & Astuces</h2>
@@ -325,8 +394,9 @@
                         <i class="ri-error-warning-line" style="color: #ffb703;"></i>
                         <p><strong>Avertissement :</strong> L'application fera des erreurs et manquera des touches de musiques depuis la limitation logicielle de reconnaissance d'images en temps réel.</p>
                     </div>
-                    
+
                     <h3>Pour un résultat plus fiable :</h3>
+
                     <ul style="list-style-type: none; margin-top: 10px; padding-left: 0;">
                         <li style="margin-bottom: 10px; display: flex; align-items: start;">
                             <i class="ri-check-line" style="color: var(--primary-color); margin-right: 10px; font-size: 1.2rem;"></i>
@@ -343,11 +413,9 @@
                     </ul>
                 </div>
             </section>
-
         </main>
     </div>
 
-    <!-- Notification Toast -->
     <div id="toast" class="toast">Message</div>
 
     <script src="script.js"></script>
