@@ -1,7 +1,6 @@
-eel
+pywebview>=5.4
+pynput
 opencv-python
 numpy
 mss
 pydirectinput
-pynput
-pyinstaller
