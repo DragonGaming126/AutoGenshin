@@ -1,4 +1,5 @@
 {
-  "hotkey_music": "<f6>",
-  "hotkey_skip": "<f7>"
+    "hotkey_music": "<f6>",
+    "hotkey_skip": "<f7>",
+    "hotkey_recolt": "<f8>"
 }
