@@ -1,0 +1,36 @@
+{
+    "enabled": false,
+    "interaction_key": "f",
+    "mode": "both",
+    "scan_interval_ms": 35,
+    "cooldown_ms": 120,
+    "clear_frames": 2,
+    "roi": {
+        "x": 0.5,
+        "y": 0.36,
+        "width": 0.49,
+        "height": 0.3
+    },
+    "f_badge": {
+        "min_area": 120,
+        "max_area": 6000,
+        "min_width": 12,
+        "max_width": 110,
+        "min_height": 12,
+        "max_height": 110
+    },
+    "examiner_template": {
+        "enabled": true,
+        "threshold": 0.52,
+        "scales": [
+            0.75,
+            0.9,
+            1.05,
+            1.2,
+            1.4,
+            1.6,
+            1.8,
+            2.0
+        ]
+    }
+}
