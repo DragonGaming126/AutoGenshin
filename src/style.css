@@ -5,20 +5,20 @@
     --bg-base: #0f111a;
     --bg-glass: rgba(25, 28, 41, 0.6);
     --border-glass: rgba(255, 255, 255, 0.08);
-    
-    --primary: #8a2be2; /* Violet Genshin Electro / Neo */
+
+    --primary: #8a2be2;
     --primary-hover: #9d4edd;
     --primary-glow: rgba(138, 43, 226, 0.4);
-    
-    --success: #00f5d4; /* Cyan bright */
+
+    --success: #00f5d4;
     --success-glow: rgba(0, 245, 212, 0.4);
-    
+
     --danger: #ff0054;
     --danger-glow: rgba(255, 0, 84, 0.4);
-    
+
     --text-main: #f8f9fa;
     --text-muted: #adb5bd;
-    
+
     --font-family: 'Outfit', sans-serif;
 }
 
@@ -37,7 +37,6 @@ body {
     color: var(--text-main);
     height: 100vh;
     overflow: hidden;
-    /* Un background stylé dégradé */
     background: radial-gradient(circle at top right, #1a1025 0%, var(--bg-base) 60%);
 }
 
@@ -81,7 +80,6 @@ body {
     color: var(--primary);
     filter: drop-shadow(0 0 8px var(--primary-glow));
 }
-
 .logo h1 {
     font-size: 20px;
     font-weight: 800;
@@ -101,7 +99,6 @@ body {
     overflow-x: hidden;
     padding-right: 5px;
 }
-
 .nav-menu::-webkit-scrollbar {
     width: 6px;
 }
@@ -115,7 +112,6 @@ body {
 .nav-menu::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.2);
 }
-
 .nav-category {
     font-size: 0.8rem;
     font-weight: 800;
@@ -140,7 +136,6 @@ body {
     flex-direction: column;
     gap: 4px;
 }
-
 .nav-item {
     background: transparent;
     border: none;
@@ -166,7 +161,6 @@ body {
     background: rgba(255, 255, 255, 0.05);
     color: var(--text-main);
 }
-
 .nav-item.active {
     background: var(--primary);
     color: white;
@@ -194,7 +188,6 @@ body {
     background: var(--danger);
     box-shadow: 0 0 10px var(--danger-glow);
 }
-
 .status-dot.online {
     background: var(--success);
     box-shadow: 0 0 10px var(--success-glow);
@@ -217,7 +210,6 @@ body {
 .content-section.active {
     display: block;
 }
-
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -249,7 +241,6 @@ body {
     align-items: center;
     gap: 30px;
 }
-
 .btn-power {
     border: none;
     border-radius: 50px;
@@ -273,7 +264,6 @@ body {
     background: linear-gradient(135deg, var(--primary), #5a189a);
     box-shadow: 0 10px 30px var(--primary-glow);
 }
-
 .btn-power.start:hover {
     transform: scale(1.05);
     box-shadow: 0 15px 40px var(--primary-glow);
@@ -288,7 +278,6 @@ body {
     transform: scale(1.05);
     box-shadow: 0 15px 40px var(--danger-glow);
 }
-
 .info-card {
     background: rgba(0, 0, 0, 0.3);
     padding: 20px;
@@ -314,7 +303,6 @@ body {
     gap: 20px;
     padding: 30px;
 }
-
 .key-card {
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -330,7 +318,6 @@ body {
     font-size: 16px;
     color: var(--text-muted);
 }
-
 .key-display {
     width: 60px;
     height: 60px;
@@ -345,7 +332,6 @@ body {
     box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
     border: 1px solid rgba(255,255,255,0.1);
 }
-
 /* =========================================
    Forms
    ========================================= */
@@ -367,7 +353,6 @@ body {
     font-weight: 600;
     color: var(--text-muted);
 }
-
 input[type="number"], input[type="text"] {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid var(--border-glass);
@@ -390,7 +375,6 @@ input:focus {
     display: flex;
     gap: 10px;
 }
-
 .btn-icon {
     background: rgba(255, 255, 255, 0.1);
     border: none;
@@ -405,7 +389,6 @@ input:focus {
 .btn-icon:hover {
     background: var(--primary);
 }
-
 /* =========================================
    Buttons
    ========================================= */
@@ -425,7 +408,6 @@ input:focus {
     background: var(--primary-hover);
     box-shadow: 0 5px 15px var(--primary-glow);
 }
-
 .form-actions {
     margin-top: 10px;
     display: flex;
@@ -445,7 +427,6 @@ input:focus {
     justify-content: center;
     align-items: center;
 }
-
 .overlay-content {
     background: var(--bg-glass);
     padding: 40px;
@@ -462,13 +443,11 @@ input:focus {
     display: inline-block;
     margin-bottom: 20px;
 }
-
 @keyframes pulse {
     0% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.2); opacity: 0.7; }
     100% { transform: scale(1); opacity: 1; }
 }
-
 /* =========================================
    Toast Notification
    ========================================= */
@@ -486,8 +465,24 @@ input:focus {
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 2000;
 }
-
 .toast.show {
     transform: translateY(0);
     opacity: 1;
+}
+
+/* Auto-Collecte additions */
+input[type="radio"] {
+    accent-color: var(--primary);
+    width: 16px;
+    height: 16px;
+}
+
+.form-group > label[style*="display:flex"] {
+    color: var(--text-main);
+    font-weight: 400;
+}
+
+button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
 }
