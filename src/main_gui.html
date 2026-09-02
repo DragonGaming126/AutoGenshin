@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automusic Genshin</title>
+    <!-- Font Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Icônes -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Eel script is dynamically injected -->
+    <script type="text/javascript" src="/eel.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar / Menu -->
+        <aside class="sidebar glass-panel">
+            <div class="logo">
+                <i class="ri-music-2-fill logo-icon"></i>
+                <h1>Automusic <span>Genshin</span></h1>
+            </div>
+
+            <nav class="nav-menu">
+                <div class="nav-category active" data-group="app-group">
+                    <span>APPLICATION</span> <i class="ri-arrow-down-s-line"></i>
+                </div>
+                <div class="nav-group" id="app-group">
+                    <button class="nav-item" data-target="app-settings">
+                        <i class="ri-settings-4-line"></i> Paramètres d'application
+                    </button>
+                </div>
+
+                <div class="nav-category active" data-group="music-group">
+                    <span>MODE MUSIQUE</span> <i class="ri-arrow-down-s-line"></i>
+                </div>
+                <div class="nav-group" id="music-group">
+                    <button class="nav-item active" data-target="dashboard">
+                        <i class="ri-dashboard-line"></i> Contrôle
+                    </button>
+                    <button class="nav-item" data-target="calibration">
+                        <i class="ri-keyboard-line"></i> Calibration clavier
+                    </button>
+                    <button class="nav-item" data-target="geometry">
+                        <i class="ri-drag-move-2-line"></i> Dimensions Ecran
+                    </button>
+                    <button class="nav-item" data-target="advanced">
+                        <i class="ri-settings-3-line"></i> Paramètres avancés
+                    </button>
+                    <button class="nav-item" data-target="tips">
+                        <i class="ri-lightbulb-line"></i> Tips
+                    </button>
+                </div>
+
+                <div class="nav-category active" data-group="autoskip-group">
+                    <span>MODE AUTOSKIP</span> <i class="ri-arrow-down-s-line"></i>
+                </div>
+                <div class="nav-group" id="autoskip-group">
+                    <button class="nav-item" data-target="autoskip_dashboard">
+                        <i class="ri-skip-forward-fill"></i> Contrôle Autoskip
+                    </button>
+                </div>
+            </nav>
+
+            <div class="status-indicator">
+                <div class="status-dot offline" id="bot-status-dot"></div>
+                <span id="bot-status-text">Bot arrêté</span>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <header class="section-header">
+                    <h2>Contrôle Principal</h2>
+                    <p>Démarre ou arrête la lecture automatique</p>
+                </header>
+                
+                <div class="control-panel glass-panel">
+                    <div class="power-button-container">
+                        <button id="btn-toggle-bot" class="btn-power start">
+                            <i class="ri-play-circle-fill icon-play"></i>
+                            <i class="ri-stop-circle-fill icon-stop" style="display: none;"></i>
+                            <span id="btn-toggle-text">Démarrer Autoplay (F6)</span>
+                        </button>
+                    </div>
+                    <div class="info-card">
+                        <i class="ri-information-line"></i>
+                        <p>Assure-toi que le jeu est bien en plein écran avant de lancer le bot. Raccourci d'activation global : <strong>F6</strong>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Autoskip Section -->
+            <section id="autoskip_dashboard" class="content-section">
+                <header class="section-header">
+                    <h2>Autoskip Dialogues</h2>
+                    <p>Passe rapidement les dialogues en spammant la touche</p>
+                </header>
+                
+                <div class="control-panel glass-panel">
+                    <div class="power-button-container">
+                        <button id="btn-toggle-autoskip" class="btn-power start" style="background: linear-gradient(135deg, #00f5d4, #00b4d8); box-shadow: 0 10px 30px rgba(0,245,212,0.3);">
+                            <i class="ri-play-circle-fill icon-play-autoskip"></i>
+                            <i class="ri-stop-circle-fill icon-stop-autoskip" style="display: none;"></i>
+                            <span id="btn-toggle-autoskip-text">Démarrer Autoskip (F7 / Ctrl+F)</span>
+                        </button>
+                    </div>
+                    
+                    <div class="settings-form" style="width: 100%; max-width: 500px; margin-top: 20px; padding: 0;">
+                        <div class="form-group">
+                            <label>Touche d'interaction (souvent F ou Espace)</label>
+                            <div class="input-with-btn">
+                                <div class="key-display" id="autoskip_key" style="width:100%; height: 45px; font-size: 20px;">F</div>
+                                <button class="btn-primary" id="btn-capture-autoskip-key" style="min-width: 120px;">Capturer</button>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label for="autoskip_interval">Vitesse de spam (en ms, min 15)</label>
+                            <input type="number" id="autoskip_interval" min="15" value="20">
+                        </div>
+                        <div class="form-actions">
+                            <button id="btn-save-autoskip" class="btn-primary">Sauvegarder Config</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Calibration Section -->
+            <section id="calibration" class="content-section">
+                <header class="section-header">
+                    <h2>Calibration Clavier & Colonnes</h2>
+                    <p>Assigne les touches et les positions X pour chaque colonne</p>
+                </header>
+
+                <div class="keys-grid glass-panel" style="gap: 15px;">
+                    <!-- Les cartes de clés -->
+                    <!-- Script.js injectera les colonnes plus proprement ou on le laisse en HTML avec une classe plus petite -->
+                    <div class="key-card">
+                        <h3>Col 1</h3>
+                        <div class="key-display" id="key-0" style="width:40px; height:40px; font-size:20px;">-</div>
+                        <button class="btn-primary btn-capture-key" data-index="0" style="padding: 5px 10px; font-size: 12px; margin-bottom: 5px;">Touche</button>
+                        <div class="input-with-btn" style="width: 100%;">
+                            <input type="number" id="col-0" style="padding: 5px; font-size: 12px; width: 100%;" title="Position X (absolue)">
+                            <button class="btn-icon btn-capture-pos" data-target="col-0" style="width:30px; height:30px;"><i class="ri-focus-3-line"></i></button>
+                        </div>
+                    </div>
+                    <div class="key-card">
+                        <h3>Col 2</h3>
+                        <div class="key-display" id="key-1" style="width:40px; height:40px; font-size:20px;">-</div>
+                        <button class="btn-primary btn-capture-key" data-index="1" style="padding: 5px 10px; font-size: 12px; margin-bottom: 5px;">Touche</button>
+                        <div class="input-with-btn" style="width: 100%;">
+                            <input type="number" id="col-1" style="padding: 5px; font-size: 12px; width: 100%;" title="Position X (absolue)">
+                            <button class="btn-icon btn-capture-pos" data-target="col-1" style="width:30px; height:30px;"><i class="ri-focus-3-line"></i></button>
+                        </div>
+                    </div>
+                    <div class="key-card">
+                        <h3>Col 3</h3>
+                        <div class="key-display" id="key-2" style="width:40px; height:40px; font-size:20px;">-</div>
+                        <button class="btn-primary btn-capture-key" data-index="2" style="padding: 5px 10px; font-size: 12px; margin-bottom: 5px;">Touche</button>
+                        <div class="input-with-btn" style="width: 100%;">
+                            <input type="number" id="col-2" style="padding: 5px; font-size: 12px; width: 100%;" title="Position X (absolue)">
+                            <button class="btn-icon btn-capture-pos" data-target="col-2" style="width:30px; height:30px;"><i class="ri-focus-3-line"></i></button>
+                        </div>
+                    </div>
+                    <div class="key-card">
+                        <h3>Col 4</h3>
+                        <div class="key-display" id="key-3" style="width:40px; height:40px; font-size:20px;">-</div>
+                        <button class="btn-primary btn-capture-key" data-index="3" style="padding: 5px 10px; font-size: 12px; margin-bottom: 5px;">Touche</button>
+                        <div class="input-with-btn" style="width: 100%;">
+                            <input type="number" id="col-3" style="padding: 5px; font-size: 12px; width: 100%;" title="Position X (absolue)">
+                            <button class="btn-icon btn-capture-pos" data-target="col-3" style="width:30px; height:30px;"><i class="ri-focus-3-line"></i></button>
+                        </div>
+                    </div>
+                    <div class="key-card">
+                        <h3>Col 5</h3>
+                        <div class="key-display" id="key-4" style="width:40px; height:40px; font-size:20px;">-</div>
+                        <button class="btn-primary btn-capture-key" data-index="4" style="padding: 5px 10px; font-size: 12px; margin-bottom: 5px;">Touche</button>
+                        <div class="input-with-btn" style="width: 100%;">
+                            <input type="number" id="col-4" style="padding: 5px; font-size: 12px; width: 100%;" title="Position X (absolue)">
+                            <button class="btn-icon btn-capture-pos" data-target="col-4" style="width:30px; height:30px;"><i class="ri-focus-3-line"></i></button>
+                        </div>
+                    </div>
+                    <div class="key-card">
+                        <h3>Col 6</h3>
+                        <div class="key-display" id="key-5" style="width:40px; height:40px; font-size:20px;">-</div>
+                        <button class="btn-primary btn-capture-key" data-index="5" style="padding: 5px 10px; font-size: 12px; margin-bottom: 5px;">Touche</button>
+                        <div class="input-with-btn" style="width: 100%;">
+                            <input type="number" id="col-5" style="padding: 5px; font-size: 12px; width: 100%;" title="Position X (absolue)">
+                            <button class="btn-icon btn-capture-pos" data-target="col-5" style="width:30px; height:30px;"><i class="ri-focus-3-line"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Overlay pour la capture de touche -->
+                <div id="capture-overlay" class="overlay" style="display: none;">
+                    <div class="overlay-content">
+                        <i class="ri-keyboard-line pulse-icon"></i>
+                        <h2>En attente d'une touche...</h2>
+                        <p>Appuie sur la touche que tu souhaites assigner.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Geometry Section -->
+            <section id="geometry" class="content-section">
+                <header class="section-header">
+                    <h2>Dimensions et Positions</h2>
+                    <p>Ajuste la zone de capture de l'écran</p>
+                </header>
+
+                <div class="settings-form glass-panel">
+                    <div class="form-group">
+                        <label for="initial_y">Ligne Y (Hauteur de la ligne de rythme)</label>
+                        <div class="input-with-btn">
+                            <input type="number" id="initial_y" value="867">
+                            <button class="btn-icon btn-capture-pos" data-target="initial_y" title="Cliquer à l'écran"><i class="ri-focus-3-line"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="x_start">X Début (Bord gauche des notes)</label>
+                        <div class="input-with-btn">
+                            <input type="number" id="x_start" value="350">
+                            <button class="btn-icon btn-capture-pos" data-target="x_start" title="Cliquer à l'écran"><i class="ri-focus-3-line"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="x_end">X Fin (Bord droit des notes)</label>
+                        <div class="input-with-btn">
+                            <input type="number" id="x_end" value="1550">
+                            <button class="btn-icon btn-capture-pos" data-target="x_end" title="Cliquer à l'écran"><i class="ri-focus-3-line"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="height">Hauteur de capture (Épaisseur zone)</label>
+                        <input type="number" id="height" value="20">
+                    </div>
+
+                    <div class="form-actions">
+                        <button id="btn-save-geometry" class="btn-primary">Sauvegarder</button>
+                    </div>
+                </div>
+                
+                <!-- Overlay pour la capture de clic -->
+                <div id="click-overlay" class="overlay" style="display: none;">
+                    <div class="overlay-content">
+                        <i class="ri-mouse-line pulse-icon"></i>
+                        <h2>En attente d'un clic...</h2>
+                        <p>Clique à l'endroit désiré sur ton écran pour récupérer la coordonnée.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- App Settings Section -->
+            <section id="app-settings" class="content-section">
+                <header class="section-header">
+                    <h2>Paramètres d'application</h2>
+                    <p>Configure les raccourcis globaux du logiciel</p>
+                </header>
+
+                <div class="settings-form glass-panel">
+                    <h3>Raccourcis d'Application</h3>
+                    <div class="form-group">
+                        <label>Démarrer/Arrêter Mode Musique</label>
+                        <div class="input-with-btn">
+                            <div class="key-display" id="hotkey_music" style="width:100%; height: 40px; font-size: 16px;">&lt;f6&gt;</div>
+                            <button class="btn-primary btn-capture-app-key" data-target="hotkey_music" style="min-width: 100px;">Capturer</button>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label>Démarrer/Arrêter Mode Autoskip</label>
+                        <div class="input-with-btn">
+                            <div class="key-display" id="hotkey_skip" style="width:100%; height: 40px; font-size: 16px;">&lt;f7&gt;</div>
+                            <button class="btn-primary btn-capture-app-key" data-target="hotkey_skip" style="min-width: 100px;">Capturer</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Section -->
+            <section id="advanced" class="content-section">
+                <header class="section-header">
+                    <h2>Paramètres Avancés</h2>
+                    <p>Réglages du moteur d'analyse vidéo</p>
+                </header>
+
+                <div class="settings-form glass-panel">
+                    <h3>Réglages Moteur</h3>
+                    <div class="form-group">
+                        <label for="pixel_threshold">Seuil de pixels (Sensibilité)</label>
+                        <input type="number" id="pixel_threshold" value="15">
+                    </div>
+                    <div class="form-group">
+                        <label for="tap_duration">Durée frappe courte (s)</label>
+                        <input type="number" step="0.01" id="tap_duration" value="0.02">
+                    </div>
+                    <div class="form-group">
+                        <label for="tap_cooldown">Délai entre frappes (s)</label>
+                        <input type="number" step="0.01" id="tap_cooldown" value="0.05">
+                    </div>
+                    <div class="form-group">
+                        <label for="hold_debounce">Tolérance maintien (s)</label>
+                        <input type="number" step="0.01" id="hold_debounce" value="0.15">
+                    </div>
+                    <div class="form-actions">
+                        <button id="btn-save-advanced" class="btn-primary">Sauvegarder Moteur</button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Tips Section -->
+            <section id="tips" class="content-section">
+                <header class="section-header">
+                    <h2>Tips & Astuces</h2>
+                    <p>Conseils pour une fiabilité optimale</p>
+                </header>
+
+                <div class="glass-panel" style="padding: 20px;">
+                    <div class="info-card" style="margin-bottom: 20px;">
+                        <i class="ri-error-warning-line" style="color: #ffb703;"></i>
+                        <p><strong>Avertissement :</strong> L'application fera des erreurs et manquera des touches de musiques depuis la limitation logicielle de reconnaissance d'images en temps réel.</p>
+                    </div>
+                    
+                    <h3>Pour un résultat plus fiable :</h3>
+                    <ul style="list-style-type: none; margin-top: 10px; padding-left: 0;">
+                        <li style="margin-bottom: 10px; display: flex; align-items: start;">
+                            <i class="ri-check-line" style="color: var(--primary-color); margin-right: 10px; font-size: 1.2rem;"></i>
+                            Utiliser un personnage n'ayant pas de jaune vif ou de violet apparent.
+                        </li>
+                        <li style="margin-bottom: 10px; display: flex; align-items: start;">
+                            <i class="ri-check-line" style="color: var(--primary-color); margin-right: 10px; font-size: 1.2rem;"></i>
+                            Utiliser le thème de musique par défaut.
+                        </li>
+                        <li style="margin-bottom: 10px; display: flex; align-items: start;">
+                            <i class="ri-check-line" style="color: var(--primary-color); margin-right: 10px; font-size: 1.2rem;"></i>
+                            Mettre la transparence de l'arrière plan au maximum.
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast">Message</div>
+
+    <script src="script.js"></script>
+</body>
+</html>

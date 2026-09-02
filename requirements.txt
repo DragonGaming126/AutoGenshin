@@ -1,0 +1,7 @@
+eel
+opencv-python
+numpy
+mss
+pydirectinput
+pynput
+pyinstaller

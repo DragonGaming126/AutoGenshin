@@ -1,0 +1,27 @@
+{
+    "keys": [
+        "a",
+        "s",
+        "d",
+        "j",
+        "k",
+        "l"
+    ],
+    "initial_y": 867,
+    "x_start": 350,
+    "x_end": 1550,
+    "height": 20,
+    "columns_x": [
+        10,
+        235,
+        451,
+        671,
+        884,
+        1099
+    ],
+    "column_width": 25,
+    "pixel_threshold": 15,
+    "tap_duration": 0.02,
+    "tap_cooldown": 0.05,
+    "hold_debounce": 0.15
+}
