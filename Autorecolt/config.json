@@ -1,0 +1,44 @@
+{
+    "enabled": false,
+    "interaction_key": "f",
+    "mode": "both",
+    "scan_interval_ms": 15,
+    "cooldown_ms": 50,
+    "stable_frames": 2,
+    "clear_frames": 2,
+    "change_frames": 3,
+    "change_threshold": 0.22,
+    "require_genshin_foreground": true,
+    "genshin_window_keywords": [
+        "genshin impact",
+        "原神"
+    ],
+    "roi": {
+        "x": 0.5,
+        "y": 0.36,
+        "width": 0.49,
+        "height": 0.3
+    },
+    "f_badge": {
+        "min_area": 120,
+        "max_area": 6000,
+        "min_width": 12,
+        "max_width": 110,
+        "min_height": 12,
+        "max_height": 110
+    },
+    "examiner_template": {
+        "enabled": true,
+        "threshold": 0.52,
+        "scales": [
+            0.75,
+            0.9,
+            1.05,
+            1.2,
+            1.4,
+            1.6,
+            1.8,
+            2
+        ]
+    }
+}
